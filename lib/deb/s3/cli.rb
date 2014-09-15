@@ -196,7 +196,7 @@ class Deb::S3::CLI < Thor
     widths = [0, 0]
     rows = archs.map { |arch|
       manifest = Deb::S3::Manifest.retrieve(options[:codename], component, arch)
-      manifest.packages.map do |package|
+      manifest.packages.sort_by!{|p| p.name.downcase}.map do |package|
         [package.name, package.full_version, package.architecture].tap do |row|
           row.each_with_index do |col, i|
             widths[i] = [widths[i], col.size].max if widths[i]
